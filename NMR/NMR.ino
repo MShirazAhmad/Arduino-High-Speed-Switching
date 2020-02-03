@@ -10,10 +10,10 @@ uint32_t Time[] = {1000,2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,1200
 uint32_t Switch[] = {1,0,1,1,1,1,0,1,0,0,0,0};
 int Pin[] = {7,7,6,2,5,3,3,4,4,5,6,2};
 uint32_t Loop_Delay = 100;
-uint32_t offset =0;
+
 int Loop = 7;
 
-
+uint32_t offset =0;
 int Loop_Count=0;
 int var =0;
 
@@ -42,8 +42,5 @@ while ((Time[var] < t) && (12 > var) ) {
       Serial.print("\n");
   var++;
 }
-
 if (var==12){Loop_Count=Loop_Count+1;var = 0;delay(Loop_Delay);offset=millis();}
-
-
 }
