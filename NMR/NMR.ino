@@ -24,7 +24,7 @@ void loop() {
 
   
 uint32_t t = millis()-offset;
-while ((Time[var] < t) && (12 > var) ) {
+while ((Time[var] < t) && (16 > var) ) {
       pinMode(Pin[var], OUTPUT);
       digitalWrite(Pin[var], Switch[var]);
       Serial.print("Event# ");
@@ -42,5 +42,5 @@ while ((Time[var] < t) && (12 > var) ) {
       Serial.print("\n");
   var++;
 }
-if (var==12){Loop_Count=Loop_Count+1;var = 0;delay(Loop_Delay);offset=millis();}
+if (var==15){Loop_Count=Loop_Count+1;var = 0;delay(Loop_Delay);offset=millis();}
 }
