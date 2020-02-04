@@ -59,7 +59,7 @@ while (Loop_Count<Loops)
           Serial.print("\n");
       var++;
     }
-    if (var==Length+1){Loop_Count=Loop_Count+1;var = 0;delay(Delay);offset=millis();}
+    if (var==Length){Loop_Count=Loop_Count+1;var = 0;delay(Delay);offset=millis();}
     }
 }
 }}
