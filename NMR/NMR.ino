@@ -1,150 +1,111 @@
-#define PCD 2
-#define TX 3
-#define RX 4
-#define PD 5
-#define PS 6
-#define PCS 7
-#define ResetLoop 8;
-int Waiting=0;
 String Index;
 int counter=0;
+int Loop_Count = 0;
 int D1=1;
-String cc= "   TX Off 320";
-String cc1;
-String cc2;
-String chopped;
-uint32_t TimeStamps[] = {};
-// PP TX RX PD PS PCS
-uint8_t Trigger[] = {};
-uint8_t SwitchNo[] = {};
+String Data= "";
+String VARIABLE;
+//String Data2;
+uint32_t Data_float[50];
+//String chopped;
+uint32_t Time[50];
+uint8_t Pin[50];
+uint8_t Switch[50];
+int Loops=0;
 int var =4;
+int Length=0;
+int BREAK = 0;
+int initiate_switching_status=0;
 int index=0;
-uint32_t D=0;
 uint32_t Delay=0;
 uint32_t R=0;
 uint32_t offset=0;
-
-
-
+String temp_var= "";
+uint32_t str_float[50];
 void setup() {
   Serial.begin(9600);
   Serial.println("Type something!");
 }
 void loop() {
-
-
-if (Serial.available() > 0) {
-    cc = Serial.readStringUntil('\n');
-    // say what you got:
-    Serial.print("I received: ");
-    Serial.println(cc);
-    counter = counter+1;
-  }
-
-while (cc.length()>0){chopping();
-if (cc1=="PCD"){Serial.println("PCD\n");
-              chopping();
-              if (cc1=="1"){Trigger[counter]=1; Serial.println("1\n");}
-              if (cc1=="0"){Trigger[counter]=0; Serial.println("0\n");}
-              Trigger[counter]=cc1.toFloat();
-              SwitchNo[counter]=PCD;
-              chopping();
-              TimeStamps[counter]=cc1.toFloat();
-              Serial.println(TimeStamps[counter]);
-              }
-if (cc1=="TX"){Serial.println("TX\n");
-              chopping();
-              if (cc1=="1"){Serial.println("1\n");}
-              if (cc1=="0"){Serial.println("0\n");}
-              Trigger[counter]=cc1.toFloat();
-              SwitchNo[counter]=TX;
-              chopping();
-              TimeStamps[counter]=cc1.toFloat();
-              Serial.println(TimeStamps[counter]);
-              }
-if (cc1=="RX"){Serial.println("RX\n");
-              chopping();
-              if (cc1=="1"){Serial.println("1\n");}
-              if (cc1=="0"){Serial.println("0\n");}
-              Trigger[counter]=cc1.toFloat();
-              SwitchNo[counter]=RX;
-              chopping();
-              TimeStamps[counter]=cc1.toFloat();
-              Serial.println(TimeStamps[counter]);
-              }
-if (cc1=="PD"){Serial.println("PD\n");
-              chopping();
-              if (cc1=="1"){Serial.println("1\n");}
-              if (cc1=="0"){Serial.println("0\n");}
-              Trigger[counter]=cc1.toFloat();
-              SwitchNo[counter]=PD;
-              chopping();
-              TimeStamps[counter]=cc1.toFloat();
-              Serial.println(TimeStamps[counter]);
-              }
-              
-if (cc1=="PS"){Serial.println("PS\n");
-              chopping();
-              if (cc1=="1"){Serial.println("1\n");}
-              if (cc1=="0"){Serial.println("0\n");}
-              Trigger[counter]=cc1.toFloat();
-              SwitchNo[counter]=PS;
-              chopping();
-              TimeStamps[counter]=cc1.toFloat();
-              Serial.println(TimeStamps[counter]);
-              }
-              
-if (cc1=="PCS"){Serial.println("PCS\n");
-              chopping();
-              if (cc1=="1"){Serial.println("1\n");}
-              if (cc1=="0"){Serial.println("0\n");}
-              Trigger[counter]=cc1.toFloat();
-              SwitchNo[counter]=PCS;
-              chopping();
-              TimeStamps[counter]=cc1.toFloat();
-              Serial.println(TimeStamps[counter]);
-              }
-if (cc1=="D"){Serial.println("D\n");
-              chopping();
-              D=1;
-              if (cc1=="1"){D=1;Serial.println("1\n");}
-              if (cc1=="0"){D=0;Serial.println("0\n");}
-              chopping();
-              Delay=cc1.toFloat();
-              Serial.println(Delay);
-              }
-if (cc1=="R"){Serial.println("R\n");
-              chopping();
-              R=cc1.toInt();
-              Serial.println(R);
-              } 
-if (cc1=="D1"){Serial.println("D1\n");
-              chopping();
-              D1=cc1.toInt();
-              Serial.println(D);
-              } 
-while (D1==0) {
-  Serial.println("Entered into second while");
-uint32_t t = millis()-offset;
-if ((TimeStamps[index] <= t)) {
-if (SwitchNo[index]  == PCD){digitalWrite(PCD, Trigger[index]); Serial.print("PCD: ");Serial.print(", Trigger: ");Serial.print(Trigger[index]);Serial.print(", SwitchNo: ");SwitchNo[index];Serial.print("\n");}
-if (SwitchNo[index]  == TX){digitalWrite(TX, Trigger[index]); Serial.print("TX\n");Serial.print(", Trigger: ");Serial.print(Trigger[index]);Serial.print(", SwitchNo: ");SwitchNo[index];Serial.print("\n");}
-if (SwitchNo[index]  == RX){digitalWrite(RX, Trigger[index]); Serial.print("RX\n");Serial.print(", Trigger: ");Serial.print(Trigger[index]);Serial.print(", SwitchNo: ");SwitchNo[index];Serial.print("\n");}
-if (SwitchNo[index]  == PD){digitalWrite(PD, Trigger[index]); Serial.print("PD\n");Serial.print(", Trigger: ");Serial.print(Trigger[index]);Serial.print(", SwitchNo: ");SwitchNo[index];Serial.print("\n");}
-if (SwitchNo[index]  == PS){digitalWrite(PS, Trigger[index]); Serial.print("PS\n");Serial.print(", Trigger: ");Serial.print(Trigger[index]);Serial.print(", SwitchNo: ");SwitchNo[index];Serial.print("\n");}
-if (SwitchNo[index]  == PCS){digitalWrite(PCS, Trigger[index]); Serial.print("PCS\n");Serial.print(", Trigger: ");Serial.print(Trigger[index]);Serial.print(", SwitchNo: ");SwitchNo[index];Serial.print("\n");}
-index++; 
-delay(D);
-if (Trigger[index] > D){index=0;offset=millis();Serial.print("Reset\n");}
+if (Serial.available() > 0)
+    {
+    Data = Serial.readStringUntil('\n');
+    while (Data.startsWith(" ")){Data=Data.substring(1);}
+    }
+    if (Data.length()!=0){processing_array(Data);}
+    
+    if (initiate_switching_status==1){initiate_switching();}
 }
+int initiate_switching(){
+Serial.print("\n -------- Loop # ");Serial.print(Loop_Count);Serial.print("--------\n");
 
+while (Loop_Count<Loops)
+{uint32_t offset = millis();
+{ var=0;
+    while (BREAK == 0) {
+    uint32_t t = millis()-offset;
+    while ((Time[var] < t)) {
+          pinMode(Pin[var], OUTPUT);
+          digitalWrite(Pin[var], Switch[var]);
+          Serial.print("Event# ");
+          Serial.print(var);
+          Serial.print(" ,");
+          Serial.print("Pin: ");
+          Serial.print(Pin[var]);
+          Serial.print(", Switch:");
+          Serial.print(Switch[var]);
+          Serial.print(" ,");
+          Serial.print("Time: ");
+          Serial.print(Time[var]);
+          Serial.print(", Current:");
+          Serial.print(t);
+          Serial.print("\n");
+      var++;
+    }
+    if (var==Length){Loop_Count=Loop_Count+1;Serial.print("\n -------- Delay # ");Serial.print(Delay);Serial.print("--------\n");delay(Delay);Serial.print("\n -------- Loop # ");Serial.print(Loop_Count);Serial.print("--------\n");
+var = 0;offset=millis();}
+    }
 }
 }}
 
+uint32_t processing_array(String str)
+{Serial.print(">"); Serial.print(str);Serial.print("\n");
+int p=-1; // P=-1 because in first iteration, variable stamps are assigned and from second, values.
+while (str.length()!=0)
+      {
+      while (str.startsWith(" ")){str=str.substring(1);}
+      VARIABLE=Data.substring(0,Data.indexOf(" "));
+      if (temp_var == "Time"){VARIABLE=temp_var;}
+      if (temp_var == "Switch"){VARIABLE=temp_var;}
+      if (temp_var == "Pin"){VARIABLE=temp_var;}
+      if (temp_var == "Delay"){VARIABLE=temp_var;}
+      if (temp_var == "Loops"){VARIABLE=temp_var;}
+      if (temp_var == "Length"){VARIABLE=temp_var;}
+      if (temp_var == "print"){serial_print();}
+      if (temp_var == "Run"){initiate_switching_status=1;}
+      while (str.startsWith(" ")){str=str.substring(1);}
+      temp_var=str.substring(0,str.indexOf(" "));
+        if ((VARIABLE == "Time") && temp_var != ""){Time[p]=temp_var.toFloat();}
+        if (VARIABLE == "Switch"){Switch[p]=temp_var.toFloat();}
+        if (VARIABLE == "Pin"){Pin[p]=temp_var.toFloat();}  
+        if (VARIABLE == "Delay"){Delay=temp_var.toFloat();}  
+        if (VARIABLE == "Loops"){Loops=temp_var.toFloat();}
+        if (VARIABLE == "Length"){Length=temp_var.toFloat();} 
+      str=str.substring(str.indexOf(" "));
+     // Serial.print("\n");Serial.print(str.length());Serial.print("\n");
+      p=p+1;
+      if (str.length() == 0){Data= ""; temp_var="";}
+      }
+}
 
 
 
-float chopping(){
-while (cc.startsWith(" ")){cc=cc.substring(1);}
-cc1=cc.substring(0,cc.indexOf(" "));
-cc=cc.substring(cc.indexOf(" "));}
+
+uint32_t serial_print()
+{
+Serial.print("\n Time");for (int p; p<=11; p++){Serial.print(" ");Serial.print(Time[p]);}
+Serial.print("\n Switch");for (int p; p<=11; p++){Serial.print(" ");Serial.print(Switch[p]);}
+Serial.print("\n Pin");for (int p; p<=11; p++){Serial.print(" ");Serial.print(Pin[p]);}
+Serial.print("\n Delay");Serial.print(" ");Serial.print(Delay);
+Serial.print("\n Loops");Serial.print(" ");Serial.print(Loops);
+Serial.print("\n Length");Serial.print(" ");Serial.print(Length);Serial.print("\n");
+}
