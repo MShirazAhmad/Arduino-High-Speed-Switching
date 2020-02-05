@@ -9,7 +9,6 @@ String Data2;
 uint32_t Data_float[50];
 String chopped;
 uint32_t TimeStamps[] = {};
-// PP TX RX PD PS PCS
 uint8_t Trigger[] = {};
 uint8_t SwitchNo[] = {};
 int var =4;
@@ -26,24 +25,19 @@ void setup() {
 }
 void loop() {
 
-
 if (Serial.available() > 0)
     {
     Data = Serial.readStringUntil('\n');
-
     Serial.println(Data);
     counter = counter+1;
     }
-
     declearing_array(Data);
     Serial.print(str_float[0]);
 }
-
 float chopping(){
 while (Data.startsWith(" ")){Data=Data.substring(1);}
 Data1=Data.substring(0,Data.indexOf(" "));
 Data=Data.substring(Data.indexOf(" "));}
-
 uint32_t declearing_array(String str)
 {
 int p=0;
