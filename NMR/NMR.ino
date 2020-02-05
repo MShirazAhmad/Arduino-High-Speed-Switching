@@ -1,9 +1,3 @@
-#define PCD 2
-#define TX 3
-#define RX 4
-#define PD 5
-#define PS 6
-#define PCS 7
 #define ResetLoop 8;
 int Waiting=0;
 String Index;
@@ -64,4 +58,3 @@ while (str.length()>0)
       p=p+1;
       }
 }
-
