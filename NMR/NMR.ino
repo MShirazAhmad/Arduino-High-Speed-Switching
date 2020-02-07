@@ -1,9 +1,9 @@
-//Time 0 0 0 0 1 2 3 9103  9203 9204  9205 9206  9406  9408  9608 9800
-//Switch  1 0 0 0 0 0 1 0     1    1     0    1     0     1     0    1
-//Pin 5 7 3 4 6 2 7 7     6    2     5    3     3     4     4    5
-//Delay   10000
-//Loops   16
-//Length  16
+//Time 0 0 0 0 1 2 3 9103 9203 9204 9205 9206 9406 9408 9608 9800
+//Switch 1 0 0 0 0 0 1 0 1 1 0 1 0 1 0 1
+//Pin 5 7 3 4 6 2 7 7 6 2 5 3 3 4 4 5
+//Delay 10000
+//Loops 16
+//Length 16
 //Run 1
 
 
@@ -15,7 +15,7 @@ String Data= "";
 String VARIABLE;
 //String Data2;
 uint32_t Data_float[50];
-//String chopped;
+//String chopped;`  
 uint32_t Time[50];
 uint8_t Pin[50];
 uint8_t Switch[50];
@@ -41,7 +41,6 @@ if (Serial.available() > 0)
     while (Data.startsWith(" ")){Data=Data.substring(1);}
     }
     if (Data.length()!=0){processing_array(Data);}
-    
     if (initiate_switching_status==1){initiate_switching();}
 }
 int initiate_switching(){
@@ -69,10 +68,9 @@ while (Loop_Count<Loops)
           Serial.print(t);
           Serial.print("\n");
       var++;
-    }
     if (var==Length){Loop_Count=Loop_Count+1;Serial.print("\n -------- Delay # ");Serial.print(Delay);Serial.print("--------\n");delay(Delay);Serial.print("\n -------- Loop # ");Serial.print(Loop_Count);Serial.print("--------\n");
-var = 0;offset=millis();}
-    }
+var = 0;offset=millis();break;}
+    }}
 }
 }}
 
