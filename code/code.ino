@@ -1,3 +1,5 @@
+//GitHub https://github.com/MShirazAhmad/Arduino-High-Speed-Switching/
+
 //Time 0 0 0 0 1 2 3 9103 9203 9204 9205 9206 9406 9408 9608 9800
 //Switch 1 0 0 0 0 0 1 0 1 1 0 1 0 1 0 1
 //Pin 5 7 3 4 6 2 7 7 6 2 5 3 3 4 4 5
